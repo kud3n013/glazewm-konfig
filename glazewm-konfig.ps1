@@ -944,7 +944,8 @@ function Save-Config([string]$path) {
     }
 
     $yamlOut = ConvertTo-Yaml $config
-    Set-Content -Path $path -Value $yamlOut -Encoding UTF8
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($path, "$yamlOut`n", $utf8NoBom)
     [System.Windows.MessageBox]::Show("Config saved to:`n$path", "GlazeWM Konfig", "OK", "Information")
 }
 
